@@ -1,19 +1,20 @@
 <html>
 	<head>
 		<title>My first three.js app</title>
-		<style>
-			body { margin: 0; }
-			canvas { width: 100%; height: 100% }
-		</style>
+		<link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
 
-		<div id="container"></div>
+		<div class="flexContainer">
+			<div id="countryInfo"></div>
+			<canvas id="globeSpace"></canvas>
+		</div>
 
 		<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 		<script src="js/three.js"></script>
 		<script src="js/OrbitControls.js"></script>
 		<script src="js/TrackballControls.js"></script>
 		<script src="js/globe.js"></script>
+
 	</body>
 </html>
