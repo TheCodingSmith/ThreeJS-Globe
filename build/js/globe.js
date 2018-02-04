@@ -1,23 +1,19 @@
-function Balloon( html ) {
+function Country( html ) {
     THREE.Object3D.call( this );
 
     this.popup = document.createElement( 'div' );
-    this.popup.classList.add( 'balloon' );
+    this.popup.classList.add( 'country' );
     this.popup.innerHTML = html;
 
     this.addEventListener( 'added', (function () {
-        container.appendChild( this.popup );
-    }).bind( this ));
-
-    this.addEventListener( 'removed', (function () {
-        container,removeChild( this.popup );
+        countryInfo.appendChild( this.popup );
     }).bind( this ));
 }
 
-Balloon.prototype = Object.create( THREE.Object3D.prototype );
-Balloon.prototype.constructor = Balloon;
+Country.prototype = Object.create( THREE.Object3D.prototype );
+Country.prototype.constructor = Country;
 
-Balloon.prototype.updateMatrixWorld = (function () {
+Country.prototype.updateMatrixWorld = (function () {
     var screenVector = new THREE.Vector3 ();
     var raycaster = new THREE.Raycaster ();
 
@@ -35,31 +31,15 @@ Balloon.prototype.updateMatrixWorld = (function () {
         raycaster.ray.direction.normalize();
 
         var intersections = raycaster.intersectObject( scene, true );
-        if( intersections.length && ( intersections[0].distance < distance )) {
-
-            // overlay anchor is obscured
-            this.popup.style.display = 'none';
-
-        } else {
-
-            // overlay anchor is visible
-            screenVector.project( camera );
-
-            this.popup.style.display = '';
-            this.popup.style.left = Math.round((screenVector.x + 1) * container.offsetWidth / 2 - 50) + 'px';
-            this.popup.style.top = Math.round((1 - screenVector.y) * container.offsetHeight / 2 - 50) + 'px';
-        }
     };
 }) ();
 
 
+// Start Globe Render
 
-
-var renderer = new THREE.WebGLRenderer();
-renderer.setPixelRatio( window.devicePixelRatio );
-renderer.setSize( window.innerWidth, window.innerHeight );
-
-document.body.appendChild( renderer.domElement );
+var renderer = new THREE.WebGLRenderer({canvas: document.getElementById('globeSpace'), antialias: true});
+		renderer.setPixelRatio( window.devicePixelRatio );
+		renderer.setSize( window.innerWidth, window.innerHeight );
 
 
 // Creates new Scene to be pushed to.
@@ -148,18 +128,20 @@ renderer.domElement.addEventListener( 'click', function (e) {
 				var lat = 180 * (uv.y - 0.5);
 				var lon = 360 * (uv.x - 0.5);
 
-				// this needs a key, but I don't care :)
+				// this needs a key. Add at some point
 
 				var url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lon + "&sensor=false";
 				$.getJSON(url, function (data) {
 						if (data.results && data.results[0]) {
 								for (var i = 0; i < data.results[0].address_components.length; i++) {
 										if (data.results[0].address_components[i].types.indexOf ('country') > -1) {
-												var label = new Balloon(
-														'<div class="text">' +
+												var label = new Country(
+														'<div class="name">'
+														+ '<span>' +
 														data.results[0].address_components[i].long_name
+														+ '</span>'
 														+ '</div>'
-														+ '<div class="arrow"></div>' );
+													 	+ '<a class="close">close[X]</a>');
 												label.position.copy ( point ).multiplyScalar (1.01) ;
 												mesh.add( label );
 
@@ -171,13 +153,15 @@ renderer.domElement.addEventListener( 'click', function (e) {
 		}
 } );
 
-
-
+// Close button on info
+$(document).on('click', '.close', function(){
+	$(this).parent().remove();
+});
 
 var animate = function () {
 	requestAnimationFrame( animate );
 
-	mesh.rotation.y += 0.0005;
+	mesh.rotation.y += 0.0002;
 
 	controls.update();
 

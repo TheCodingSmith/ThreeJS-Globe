@@ -1,0 +1,31 @@
+body { margin: 0; }
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.flexContainer{
+  display: flex;
+}
+#globeSpace {
+  flex-basis: 80%;
+}
+
+#countryInfo{
+  min-width: 20%;
+  flex-basis: 20%;
+  color: #fff;
+}
+.country{
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  background-color: #00aaff;
+}
+
+.close {
+  font-size: 9px;
+  cursor: pointer;
+  display: block;
+  text-align: right;
+}
