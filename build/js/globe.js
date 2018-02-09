@@ -135,13 +135,32 @@ renderer.domElement.addEventListener( 'click', function (e) {
 						if (data.results && data.results[0]) {
 								for (var i = 0; i < data.results[0].address_components.length; i++) {
 										if (data.results[0].address_components[i].types.indexOf ('country') > -1) {
+												var countryName = data.results[0].address_components[i].long_name;
 												var label = new Country(
 														'<div class="name">'
 														+ '<span>' +
-														data.results[0].address_components[i].long_name
+														countryName
 														+ '</span>'
 														+ '</div>'
-													 	+ '<a class="close">close[X]</a>');
+														+ '<div class="indexInformation"></div>');
+
+														var dimensions = 'https://api.myjson.com/bins/11rhq9'
+														$.getJSON(dimensions, function(sixD) {
+																var label = new Country(
+																	"<p> PDI: " + sixD.results[countryName].pdi + "</P>" +
+																	"<p> IDV: " + sixD.results[countryName].idv + "</P>" +
+																	"<p> MAS: " + sixD.results[countryName].mas + "</P>" +
+																	"<p> UAI: " + sixD.results[countryName].uai + "</P>" +
+																	"<p> LTOWVS: " + sixD.results[countryName].ltowvs + "</P>" +
+																	"<p> IVR: " + sixD.results[countryName].ivr + "</P>"
+																);
+
+																label.position.copy ( point ) ;
+																mesh.add( label );
+
+														});
+
+
 												label.position.copy ( point ).multiplyScalar (1.01) ;
 												mesh.add( label );
 
@@ -152,6 +171,7 @@ renderer.domElement.addEventListener( 'click', function (e) {
 				});
 		}
 } );
+
 
 // Close button on info
 $(document).on('click', '.close', function(){

@@ -19,7 +19,7 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 	this.screen = { left: 0, top: 0, width: 0, height: 0 };
 
-	this.rotateSpeed = 1.0;
+	this.rotateSpeed = 5.0;
 	this.zoomSpeed = 1.2;
 	this.panSpeed = 0.3;
 
@@ -469,7 +469,7 @@ THREE.TrackballControls = function ( object, domElement ) {
 	function mousewheel( event ) {
 
 		if ( _this.enabled === false ) return;
-		
+
 		if ( _this.noZoom === true ) return;
 
 		event.preventDefault();
