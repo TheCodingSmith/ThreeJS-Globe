@@ -142,12 +142,11 @@ renderer.domElement.addEventListener( 'click', function (e) {
 														countryName
 														+ '</span>'
 														+ '</div>'
-														+ '<div class="indexInformation"></div>'
-													 	+ '<a class="close">close[X]</a>');
+														+ '<div class="indexInformation"></div>');
 
 														var dimensions = 'https://api.myjson.com/bins/11rhq9'
 														$.getJSON(dimensions, function(sixD) {
-																var label2 = new Country(
+																var label = new Country(
 																	"<p> PDI: " + sixD.results[countryName].pdi + "</P>" +
 																	"<p> IDV: " + sixD.results[countryName].idv + "</P>" +
 																	"<p> MAS: " + sixD.results[countryName].mas + "</P>" +
@@ -156,8 +155,8 @@ renderer.domElement.addEventListener( 'click', function (e) {
 																	"<p> IVR: " + sixD.results[countryName].ivr + "</P>"
 																);
 
-																label2.position.copy ( point ) ;
-																mesh.add( label2 );
+																label.position.copy ( point ) ;
+																mesh.add( label );
 
 														});
 
